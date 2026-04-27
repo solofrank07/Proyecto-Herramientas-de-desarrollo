@@ -1,12 +1,3 @@
-const data = [
-    { nombre: "Arroz con Pollo", descripcion: "Económico y fácil" },
-    { nombre: "Lomo Saltado", descripcion: "Clásico peruano" },
-    { nombre: "Ceviche", descripcion: "Fresco y delicioso" },
-    { nombre: "Arroz Chaufa", descripcion: "Rápido y barato" },
-    { nombre: "Ají de Gallina", descripcion: "Cremoso y sabroso" },
-    { nombre: "Tallarines Verdes", descripcion: "Ligero y casero" }
-];
-
 function mostrarLoader() {
     document.getElementById("loader").classList.remove("hidden");
 }
@@ -33,39 +24,97 @@ function renderizar(lista) {
 }
 
 function buscar() {
-    const query = document.getElementById("inputBusqueda").value.toLowerCase();
+    const query = document.getElementById("inputBusqueda").value;
+    const presupuesto = document.getElementById("inputPresupuesto").value || 0;
+    const momento = document.getElementById("inputMomento").value;
 
     mostrarLoader();
 
-    setTimeout(() => {
-        const resultados = data.filter(item =>
-            item.nombre.toLowerCase().includes(query)
-        );
+    fetch("http://localhost:8080/api/recomendar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nombre: query,
+            presupuesto: presupuesto,
+            momento: momento
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            ocultarLoader();
 
-        ocultarLoader();
+            if (data.length === 0) {
+                document.getElementById("resultados").innerHTML = "<p>No se encontraron resultados</p>";
+                return;
+            }
 
-        if (resultados.length === 0) {
-            document.getElementById("resultados").innerHTML = "<p>No se encontraron resultados</p>";
-            return;
-        }
-
-        renderizar(resultados);
-    }, 800);
+            renderizar(data);
+        })
+        .catch(() => {
+            ocultarLoader();
+            document.getElementById("resultados").innerHTML = "<p>Error al conectar con el servidor</p>";
+        });
 }
 
 function sorprendeme() {
     mostrarLoader();
 
-    setTimeout(() => {
-        const random = data[Math.floor(Math.random() * data.length)];
-        ocultarLoader();
-        renderizar([random]);
-    }, 800);
+    fetch("http://localhost:8080/api/recomendar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nombre: "",
+            presupuesto: 0,
+            momento: ""
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            ocultarLoader();
+
+            if (data.length === 0) {
+                document.getElementById("resultados").innerHTML = "<p>No hay datos</p>";
+                return;
+            }
+
+            const random = data[Math.floor(Math.random() * data.length)];
+            renderizar([random]);
+        })
+        .catch(() => {
+            ocultarLoader();
+            document.getElementById("resultados").innerHTML = "<p>Error al conectar con el servidor</p>";
+        });
 }
 
 function mostrarAleatorios() {
-    const mezclados = data.sort(() => 0.5 - Math.random());
-    renderizar(mezclados.slice(0, 3));
+    fetch("http://localhost:8080/api/recomendar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nombre: "",
+            presupuesto: 0,
+            momento: ""
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            const mezclados = data.sort(() => 0.5 - Math.random());
+            renderizar(mezclados.slice(0, 3));
+        })
+        .catch(() => {
+            document.getElementById("resultados").innerHTML = "<p>Error al cargar datos</p>";
+        });
+}
+
+function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
 }
 
 window.onload = mostrarAleatorios;
