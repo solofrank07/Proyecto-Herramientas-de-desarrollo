@@ -1,3 +1,5 @@
+//:p
+
 function mostrarLoader() {
     document.getElementById("loader").classList.remove("hidden");
 }
