@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sabor IA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script>
+        if (!localStorage.getItem("user")) {
+            window.location.href = "login.html";
+        }
+    </script>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">🍽️ Sabor IA</div>
+    <nav class="nav">
+        <a href="#">Inicio</a>
+        <a href="#">Recetas</a>
+        <a href="#">Historial</a>
+        <button onclick="logout()" class="btn-logout">Salir</button>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>¿Qué comeremos hoy?</h1>
+    <p>Encuentra comidas según tus ingredientes o presupuesto</p>
+
+    <div class="search-box">
+        <input id="inputBusqueda" type="text" placeholder="Ej: pollo, arroz">
+        <input id="inputPresupuesto" type="number" placeholder="Presupuesto (S/)">
+
+        <select id="inputMomento">
+            <option value="">Cualquier momento</option>
+            <option value="almuerzo">Almuerzo</option>
+            <option value="cena">Cena</option>
+        </select>
+
+        <button onclick="buscar()">Buscar</button>
+        <button onclick="sorprendeme()" class="btn-random">Sorpréndeme 🎲</button>
+    </div>
+</section>
+
+<section class="result-section">
+    <h2>Recomendaciones</h2>
+    <div id="resultados" class="cards"></div>
+</section>
+
+<div id="loader" class="loader hidden"></div>
+
+<footer class="footer">
+    <p>© 2026 Sabor IA</p>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+
+</html>
