@@ -1,3 +1,5 @@
+// mejora en lógica de recomendación
+
 package com.example.HerramientaTrabajo.service;
 
 import com.example.HerramientaTrabajo.model.Receta;
