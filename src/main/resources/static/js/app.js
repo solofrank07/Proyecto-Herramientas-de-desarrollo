@@ -1,4 +1,4 @@
-//:p
+// validación mejorada frontend
 
 function mostrarLoader() {
     document.getElementById("loader").classList.remove("hidden");
