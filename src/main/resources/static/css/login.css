@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
@@ -90,10 +91,35 @@ body {
     font-weight: 600;
     margin-bottom: 8px;
     color: var(--primary);
+=======
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(120deg, #ff6b6b, #ff9f43);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-box {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    animation: fadeIn 0.8s ease;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+>>>>>>> f7ead132db0219c71c8f5d55056183e2c6c913c4
 }
 
 .login-box input {
     width: 100%;
+<<<<<<< HEAD
     padding: 10px 14px;
     border-radius: 8px;
     border: 1px solid var(--border);
@@ -112,11 +138,24 @@ body {
 .login-box input:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px var(--ring);
+=======
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+}
+
+.login-box input:focus {
+    border-color: #ff6b6b;
+    transform: scale(1.02);
+>>>>>>> f7ead132db0219c71c8f5d55056183e2c6c913c4
 }
 
 .login-box button {
     width: 100%;
     padding: 12px;
+<<<<<<< HEAD
     margin-top: 12px;
     border: none;
     border-radius: 8px;
@@ -167,3 +206,34 @@ body {
 .login-box a:hover {
     text-decoration: underline;
 }
+=======
+    border: none;
+    border-radius: 8px;
+    background: #ff6b6b;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.login-box button:hover {
+    background: #ff4c4c;
+    transform: scale(1.05);
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+>>>>>>> f7ead132db0219c71c8f5d55056183e2c6c913c4

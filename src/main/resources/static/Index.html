@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+<<<<<<< HEAD
+=======
+
+>>>>>>> f7ead132db0219c71c8f5d55056183e2c6c913c4
 <head>
     <meta charset="UTF-8">
     <title>Sabor IA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
+<<<<<<< HEAD
 </head>
 <body>
 
@@ -24,10 +29,30 @@
             <a href="login.html" class="btn btn-login">Ingresar</a>
             <a href="register.html" class="btn btn-primary">Registrarse</a>
         </div>
+=======
+
+    <script>
+        if (!localStorage.getItem("user")) {
+            window.location.href = "login.html";
+        }
+    </script>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">🍽️ Sabor IA</div>
+    <nav class="nav">
+        <a href="#">Inicio</a>
+        <a href="#">Recetas</a>
+        <a href="#">Historial</a>
+        <button onclick="logout()" class="btn-logout">Salir</button>
+>>>>>>> f7ead132db0219c71c8f5d55056183e2c6c913c4
     </nav>
 </header>
 
 <section class="hero">
+<<<<<<< HEAD
     <div class="badge">✨ Inteligencia Artificial Culinaria</div>
     <h1>¿Qué comeremos hoy?</h1>
     <p>Encuentra comidas perfectas según tus ingredientes, antojos o presupuesto. La IA hace el trabajo duro por ti.</p>
@@ -46,10 +71,28 @@
 
         <button onclick="buscar()" class="btn btn-primary">Buscar</button>
         <button onclick="sorprendeme()" class="btn btn-secondary">Sorpréndeme 🎲</button>
+=======
+    <h1>¿Qué comeremos hoy?</h1>
+    <p>Encuentra comidas según tus ingredientes o presupuesto</p>
+
+    <div class="search-box">
+        <input id="inputBusqueda" type="text" placeholder="Ej: pollo, arroz">
+        <input id="inputPresupuesto" type="number" placeholder="Presupuesto (S/)">
+
+        <select id="inputMomento">
+            <option value="">Cualquier momento</option>
+            <option value="almuerzo">Almuerzo</option>
+            <option value="cena">Cena</option>
+        </select>
+
+        <button onclick="buscar()">Buscar</button>
+        <button onclick="sorprendeme()" class="btn-random">Sorpréndeme 🎲</button>
+>>>>>>> f7ead132db0219c71c8f5d55056183e2c6c913c4
     </div>
 </section>
 
 <section class="result-section">
+<<<<<<< HEAD
     <div class="section-header">
         <h2>Recomendaciones para ti</h2>
     </div>
@@ -90,4 +133,19 @@ window.onload = function() {
 };
 </script>
 </body>
+=======
+    <h2>Recomendaciones</h2>
+    <div id="resultados" class="cards"></div>
+</section>
+
+<div id="loader" class="loader hidden"></div>
+
+<footer class="footer">
+    <p>© 2026 Sabor IA</p>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+
+>>>>>>> f7ead132db0219c71c8f5d55056183e2c6c913c4
 </html>
