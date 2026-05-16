@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Sabor IA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <a href="Index.html" class="brand">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            Sabor IA
+        </a>
+
+        <div class="login-box">
+            <h2>Bienvenido de nuevo</h2>
+            <p class="subtitle">Ingresa tus credenciales para continuar</p>
+
+            <div class="form-group">
+                <label for="user">Correo electrónico</label>
+                <input id="user" type="email" placeholder="tu@correo.com">
+            </div>
+
+            <div class="form-group">
+                <label for="pass">Contraseña</label>
+                <input id="pass" type="password" placeholder="••••••••">
+            </div>
+
+            <button type="button" onclick="login()">Iniciar sesión</button>
+
+            <p id="error" class="error"></p>
+
+            <p class="footer-text">
+                ¿No tienes cuenta? <a href="register.html">Regístrate</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/login.js"></script>
+
+</body>
+</html>
