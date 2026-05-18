@@ -1,5 +1,4 @@
 package com.example.HerramientaTrabajo.repository;
-
 import com.example.HerramientaTrabajo.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
