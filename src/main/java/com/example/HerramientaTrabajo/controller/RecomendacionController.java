@@ -21,10 +21,22 @@ public class RecomendacionController {
     @PostMapping("/recomendar")
     public List<Receta> recomendar(@RequestBody Map<String, String> request) {
 
-        String nombre = request.getOrDefault("nombre", "");
-        int presupuesto = Integer.parseInt(request.getOrDefault("presupuesto", "0"));
-        String momento = request.getOrDefault("momento", "");
+        String nombre = request.getOrDefault("nombre", "").trim();
+
+        int presupuesto = 0;
+        try {
+            presupuesto = Integer.parseInt(request.getOrDefault("presupuesto", "0"));
+        } catch (NumberFormatException e) {
+            presupuesto = 0;
+        }
+
+        String momento = request.getOrDefault("momento", "").toLowerCase();
 
         return recetaService.recomendar(nombre, presupuesto, momento);
+    }
+
+    @GetMapping("/saludo")
+    public String saludo() {
+        return "API funcionando correctamente";
     }
 }
