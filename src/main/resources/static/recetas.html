@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetas - Premium Food</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/recetas.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-utensils"></i> Tasty UI
+            </a>
+            <nav class="nav-links">
+                <a href="#" class="nav-link active" onclick="showView('home')">Descubrir</a>
+                <a href="#" class="nav-link" onclick="showView('admin')">Admin Panel</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="btn btn-icon"><i class="fa-regular fa-bookmark"></i></button>
+                <div class="avatar-circle">U</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN VIEW -->
+    <main id="home-view" class="view active">
+        <!-- Hero Search -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">¿Qué vas a cocinar hoy?</h1>
+                <p class="hero-subtitle">Descubre cientos de recetas increíbles para cada momento del día.</p>
+                
+                <div class="search-bar-container">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="search-input" class="search-input" placeholder="Buscar recetas, ingredientes...">
+                    <button class="btn btn-primary search-btn">Buscar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories & Filters -->
+        <section class="controls-section container">
+            <div class="categories-scroll" id="categories-container">
+                <!-- Filled by JS -->
+            </div>
+            
+            <div class="filters-row">
+                <div class="filter-dropdown">
+                    <select id="filter-difficulty" class="modern-select">
+                        <option value="all">Cualquier dificultad</option>
+                        <option value="Fácil">Fácil</option>
+                        <option value="Media">Media</option>
+                        <option value="Difícil">Difícil</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recipes Grid -->
+        <section class="recipes-section container">
+            <div class="recipes-grid" id="recipes-grid">
+                <!-- Cards filled by JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- ADMIN VIEW -->
+    <main id="admin-view" class="view container" style="display: none; padding-top: 40px;">
+        <div class="admin-header">
+            <div>
+                <h2 class="section-title">Gestión de Recetas</h2>
+                <p class="text-muted">Administra el catálogo de recetas de la plataforma.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openAdminModal()">
+                <i class="fa-solid fa-plus"></i> Nueva Receta
+            </button>
+        </div>
+
+        <div class="admin-table-container">
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>Receta</th>
+                        <th>Categoría</th>
+                        <th>Dificultad</th>
+                        <th>Tiempo</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-table-body">
+                    <!-- Filled by JS -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- RECIPE DETAIL MODAL -->
+    <div id="recipe-modal" class="modal-overlay">
+        <div class="modal-content recipe-detail-modal">
+            <button class="close-modal" onclick="closeRecipeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="recipe-detail-grid" id="recipe-detail-content">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN FORM MODAL -->
+    <div id="admin-modal" class="modal-overlay">
+        <div class="modal-content admin-form-modal">
+            <button class="close-modal" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="modal-title" id="admin-modal-title">Agregar Nueva Receta</h3>
+            
+            <form id="admin-form" onsubmit="handleAdminSubmit(event)">
+                <input type="hidden" id="form-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nombre de la receta</label>
+                        <input type="text" id="form-name" required class="modern-input">
+                    </div>
+                    <div class="form-group">
+                        <label>URL de Imagen</label>
+                        <input type="url" id="form-image" required class="modern-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="form-category" required class="modern-input">
+                            <option value="Desayuno">Desayuno</option>
+                            <option value="Almuerzo">Almuerzo</option>
+                            <option value="Cena">Cena</option>
+                            <option value="Postres">Postres</option>
+                            <option value="Bebidas">Bebidas</option>
+                            <option value="Comida Rápida">Comida Rápida</option>
+                            <option value="Saludable">Saludable</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio ($)</label>
+                        <input type="number" id="form-price" step="0.01" required class="modern-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Tiempo de Prep. (min)</label>
+                        <input type="text" id="form-time" required class="modern-input" placeholder="ej. 30 min">
+                    </div>
+                    <div class="form-group">
+                        <label>Dificultad</label>
+                        <select id="form-difficulty" required class="modern-input">
+                            <option value="Fácil">Fácil</option>
+                            <option value="Media">Media</option>
+                            <option value="Difícil">Difícil</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label>Descripción corta</label>
+                    <textarea id="form-description" required class="modern-input" rows="2"></textarea>
+                </div>
+                <!-- Simplifying ingredients and steps for UI mock -->
+                <div class="form-group full-width">
+                    <label>Ingredientes (Separados por coma)</label>
+                    <textarea id="form-ingredients" required class="modern-input" rows="3"></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label>Pasos de preparación (Separados por salto de línea)</label>
+                    <textarea id="form-steps" required class="modern-input" rows="4"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAdminModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Receta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/recetas.js"></script>
+</body>
+</html>
