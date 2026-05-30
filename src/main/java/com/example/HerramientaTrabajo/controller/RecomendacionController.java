@@ -39,4 +39,28 @@ public class RecomendacionController {
     public String saludo() {
         return "API funcionando correctamente";
     }
+
+    @GetMapping("/recetas")
+    public List<Receta> listarRecetas() {
+        return recetaService.listarTodas();
+    }
+
+    @PostMapping("/recetas")
+    public Receta crearReceta(@RequestBody Receta receta) {
+        return recetaService.guardar(receta);
+    }
+
+    @PutMapping("/recetas/{id}")
+    public Receta actualizarReceta(
+            @PathVariable Long id,
+            @RequestBody Receta receta) {
+
+        return recetaService.actualizar(id, receta);
+    }
+
+    @DeleteMapping("/recetas/{id}")
+    public void eliminarReceta(@PathVariable Long id) {
+        recetaService.eliminar(id);
+    }
+
 }

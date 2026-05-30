@@ -1,50 +1,68 @@
-// mejora en lógica de recomendación
-
 package com.example.HerramientaTrabajo.service;
 
 import com.example.HerramientaTrabajo.model.Receta;
+import com.example.HerramientaTrabajo.repository.RecetaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RecetaService {
 
-    private List<Receta> data = List.of(
-            new Receta("Arroz con Pollo", "Económico y fácil", 12, "almuerzo"),
-            new Receta("Lomo Saltado", "Clásico peruano", 20, "almuerzo"),
-            new Receta("Ceviche", "Fresco y delicioso", 25, "almuerzo"),
-            new Receta("Arroz Chaufa", "Rápido y barato", 10, "cena"),
-            new Receta("Ají de Gallina", "Cremoso y sabroso", 15, "almuerzo"),
-            new Receta("Tallarines Verdes", "Ligero y casero", 11, "cena")
-    );
+    private final RecetaRepository repo;
+
+    public RecetaService(RecetaRepository repo) {
+        this.repo = repo;
+    }
 
     public List<Receta> recomendar(String nombre, int presupuesto, String momento) {
 
-        List<Receta> resultado = new ArrayList<>();
+        List<Receta> recetas = repo.findAll();
 
-        for (Receta r : data) {
+        return recetas.stream()
+                .filter(r ->
+                        (nombre.isEmpty() ||
+                                r.getNombre().toLowerCase().contains(nombre.toLowerCase()))
+                                &&
+                                (presupuesto == 0 ||
+                                        r.getPrecioEstimado() <= presupuesto)
+                                &&
+                                (momento.isEmpty() ||
+                                        r.getTipoComida().equalsIgnoreCase(momento))
+                )
+                .collect(Collectors.toList());
+    }
 
-            int puntos = 0;
+    public List<Receta> listarTodas() {
+        return repo.findAll();
+    }
 
-            if (r.getNombre().toLowerCase().contains(nombre.toLowerCase())) {
-                puntos++;
-            }
+    public Receta guardar(Receta receta) {
+        return repo.save(receta);
+    }
 
-            if (presupuesto == 0 || r.getPrecio() <= presupuesto) {
-                puntos++;
-            }
+    public Receta buscarPorId(Long id) {
+        return repo.findById(id).orElse(null);
+    }
 
-            if (momento.isEmpty() || r.getMomento().equalsIgnoreCase(momento)) {
-                puntos++;
-            }
+    public Receta actualizar(Long id, Receta nuevaReceta) {
 
-            if (puntos >= 2) {
-                resultado.add(r);
-            }
+        Receta receta = repo.findById(id).orElse(null);
+
+        if (receta == null) {
+            return null;
         }
 
-        return resultado;
+        receta.setNombre(nuevaReceta.getNombre());
+        receta.setDescripcion(nuevaReceta.getDescripcion());
+        receta.setPrecioEstimado(nuevaReceta.getPrecioEstimado());
+        receta.setTipoComida(nuevaReceta.getTipoComida());
+
+        return repo.save(receta);
+    }
+
+    public void eliminar(Long id) {
+        repo.deleteById(id);
     }
 }

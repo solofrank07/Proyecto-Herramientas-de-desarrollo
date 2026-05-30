@@ -1,171 +1,60 @@
 /**
  * Mock Data for Recipes
  */
-let recipes = [
-    {
-        id: 1,
-        title: "Tostadas Francesas con Frutos Rojos",
-        description: "Clásicas tostadas francesas doradas, servidas con una mezcla fresca de frutos rojos y miel de maple pura.",
-        image: "https://images.unsplash.com/photo-1484723091791-c08f0f04eb21?auto=format&fit=crop&q=80&w=800",
-        category: "Desayuno",
-        time: "15 min",
-        difficulty: "Fácil",
-        price: 8.50,
-        ingredients: [
-            "2 rebanadas de pan brioche grueso",
-            "2 huevos",
-            "1/2 taza de leche",
-            "1 cucharadita de extracto de vainilla",
-            "Canela al gusto",
-            "Frutos rojos frescos (fresas, arándanos)",
-            "Miel de maple"
-        ],
-        steps: [
-            "Batir los huevos, la leche, la vainilla y la canela en un tazón profundo.",
-            "Sumergir el pan brioche en la mezcla hasta que esté bien empapado.",
-            "Calentar una sartén con mantequilla a fuego medio.",
-            "Dorar las tostadas por ambos lados (aprox. 3 minutos por lado).",
-            "Servir caliente, decorar con frutos rojos y bañar con miel de maple."
-        ]
-    },
-    {
-        id: 2,
-        title: "Bowl de Salmón Teriyaki",
-        description: "Salmón glaseado con salsa teriyaki casera sobre una cama de arroz de sushi, aguacate y edamames.",
-        image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&q=80&w=800",
-        category: "Almuerzo",
-        time: "30 min",
-        difficulty: "Media",
-        price: 18.90,
-        ingredients: [
-            "200g de filete de salmón",
-            "1 taza de arroz de sushi preparado",
-            "1/2 aguacate rebanado",
-            "1/4 taza de edamames cocidos",
-            "Salsa teriyaki",
-            "Semillas de sésamo"
-        ],
-        steps: [
-            "Marinar el salmón en salsa teriyaki durante 15 minutos.",
-            "Cocinar el salmón en una sartén a fuego medio-alto o al horno hasta que esté opaco.",
-            "Servir el arroz en un tazón.",
-            "Acomodar el salmón, el aguacate y los edamames sobre el arroz.",
-            "Espolvorear con semillas de sésamo y añadir más salsa al gusto."
-        ]
-    },
-    {
-        id: 3,
-        title: "Pasta Trufada con Champiñones",
-        description: "Fettuccine en una rica y cremosa salsa de trufa negra con champiñones salteados y queso parmesano.",
-        image: "https://images.unsplash.com/photo-1645696301019-35adcb18fc41?auto=format&fit=crop&q=80&w=800",
-        category: "Cena",
-        time: "25 min",
-        difficulty: "Fácil",
-        price: 22.00,
-        ingredients: [
-            "200g de pasta fettuccine",
-            "150g de champiñones laminados",
-            "1 diente de ajo picado",
-            "1 taza de crema de leche (nata)",
-            "1 cucharada de aceite o pasta de trufa",
-            "Queso parmesano rallado",
-            "Perejil fresco"
-        ],
-        steps: [
-            "Hervir la pasta en agua salada según las instrucciones del paquete.",
-            "Saltear los champiñones y el ajo en aceite de oliva hasta dorar.",
-            "Añadir la crema de leche y el aceite/pasta de trufa, reducir a fuego lento.",
-            "Incorporar la pasta escurrida a la salsa y mezclar bien.",
-            "Servir con abundante queso parmesano y perejil picado."
-        ]
-    },
-    {
-        id: 4,
-        title: "Cheesecake de Frambuesa",
-        description: "Pastel de queso estilo Nueva York con una base crujiente y una sedosa cobertura de coulis de frambuesa.",
-        image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&q=80&w=800",
-        category: "Postres",
-        time: "120 min",
-        difficulty: "Difícil",
-        price: 6.50,
-        ingredients: [
-            "Galletas graham trituradas",
-            "Mantequilla derretida",
-            "Queso crema tipo Philadelphia",
-            "Azúcar",
-            "Huevos",
-            "Extracto de vainilla",
-            "Frambuesas frescas para el coulis"
-        ],
-        steps: [
-            "Mezclar las galletas con mantequilla y presionar en la base de un molde.",
-            "Batir el queso crema con el azúcar, vainilla y añadir los huevos uno a uno.",
-            "Verter la mezcla sobre la base y hornear a baño maría por 60 min.",
-            "Dejar enfriar completamente y refrigerar.",
-            "Cubrir con coulis de frambuesa antes de servir."
-        ]
-    },
-    {
-        id: 5,
-        title: "Smoothie Bowl Tropical",
-        description: "Refrescante batido de mango y piña servido en tazón, decorado con coco rallado, chía y fruta fresca.",
-        image: "https://images.unsplash.com/photo-1494597564530-871f2b93ac55?auto=format&fit=crop&q=80&w=800",
-        category: "Saludable",
-        time: "10 min",
-        difficulty: "Fácil",
-        price: 7.90,
-        ingredients: [
-            "1 taza de mango congelado",
-            "1/2 taza de piña congelada",
-            "1/2 plátano",
-            "1/2 taza de leche de coco",
-            "Toppings: coco rallado, semillas de chía, granola"
-        ],
-        steps: [
-            "Colocar la fruta congelada y la leche de coco en una licuadora potente.",
-            "Licuar hasta obtener una textura espesa y cremosa.",
-            "Servir inmediatamente en un tazón.",
-            "Decorar artísticamente con los toppings elegidos."
-        ]
-    },
-    {
-        id: 6,
-        title: "Burger Artesanal Doble",
-        description: "Doble carne de res 100% Angus, queso cheddar derretido, cebolla caramelizada y salsa secreta en pan brioche.",
-        image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=800",
-        category: "Comida Rápida",
-        time: "20 min",
-        difficulty: "Media",
-        price: 14.50,
-        ingredients: [
-            "2 medallones de carne molida Angus (100g c/u)",
-            "2 rebanadas de queso cheddar",
-            "Pan brioche tostado",
-            "Cebolla caramelizada",
-            "Lechuga fresca y tomate",
-            "Salsa especial (mayonesa, kétchup, mostaza, pepinillos picados)"
-        ],
-        steps: [
-            "Sazonar la carne con sal y pimienta. Aplastar ligeramente en la plancha bien caliente (smash burger).",
-            "Cocinar 2 minutos, voltear y colocar el queso cheddar encima.",
-            "Tostar el pan brioche con un poco de mantequilla.",
-            "Armar la hamburguesa: salsa, lechuga, tomate, carne con queso, cebolla caramelizada, pan.",
-            "Servir inmediatamente."
-        ]
-    }
-];
+let recipes = [];
 
 const categories = ["Todas", "Desayuno", "Almuerzo", "Cena", "Postres", "Bebidas", "Comida Rápida", "Saludable"];
 let currentCategory = "Todas";
 let currentSearch = "";
 let currentDifficulty = "all";
 
-// Initialization
+async function cargarRecetas() {
+
+    try {
+
+        const response = await fetch("/api/recetas");
+
+        const data = await response.json();
+
+        recipes = data.map(r => ({
+            id: r.id,
+            title: r.nombre,
+            description: r.descripcion,
+            category: capitalizar(r.tipoComida),
+            price: r.precioEstimado,
+
+            image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
+            time: "30 min",
+            difficulty: "Media",
+            ingredients: ["Información no disponible"],
+            steps: ["Información no disponible"]
+        }));
+
+        renderRecipes();
+        renderAdminTable();
+
+        console.log("Recetas cargadas:", recipes);
+
+    } catch (error) {
+
+        console.error("Error cargando recetas:", error);
+
+    }
+}
+
+function capitalizar(texto) {
+    if (!texto) return "";
+    return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+
     renderCategories();
-    renderRecipes();
-    renderAdminTable();
+
     setupEventListeners();
+
+    cargarRecetas();
+
 });
 
 function setupEventListeners() {
@@ -245,7 +134,11 @@ function renderRecipes() {
     
     const filteredRecipes = recipes.filter(r => {
         const matchCategory = currentCategory === "Todas" || r.category === currentCategory;
-        const matchSearch = r.title.toLowerCase().includes(currentSearch) || r.ingredients.some(i => i.toLowerCase().includes(currentSearch));
+        const matchSearch =
+            r.title.toLowerCase().includes(currentSearch) ||
+            (r.ingredients || []).some(i =>
+                i.toLowerCase().includes(currentSearch)
+            );
         const matchDifficulty = currentDifficulty === "all" || r.difficulty === currentDifficulty;
         
         return matchCategory && matchSearch && matchDifficulty;
@@ -356,9 +249,13 @@ function closeRecipeModal() {
 // ADMIN PANEL
 // =========================================
 function renderAdminTable() {
+
     const tbody = document.getElementById("admin-table-body");
+
+    if (!tbody) return;
+
     tbody.innerHTML = "";
-    
+
     recipes.forEach(recipe => {
         const tr = document.createElement("tr");
         
@@ -426,62 +323,89 @@ function closeAdminModal() {
 }
 
 function handleAdminSubmit(e) {
+
+    alert("Entró al submit");
+
     e.preventDefault();
-    
+
     const id = document.getElementById("form-id").value;
+
     const title = document.getElementById("form-name").value;
-    const image = document.getElementById("form-image").value;
     const category = document.getElementById("form-category").value;
     const price = parseFloat(document.getElementById("form-price").value);
-    const time = document.getElementById("form-time").value;
-    const difficulty = document.getElementById("form-difficulty").value;
     const description = document.getElementById("form-description").value;
-    
-    // Parse arrays
-    const ingredients = document.getElementById("form-ingredients").value.split(",").map(i => i.trim()).filter(i => i);
-    const steps = document.getElementById("form-steps").value.split("\n").map(s => s.trim()).filter(s => s);
-    
-    if (id) {
-        // Edit existing
-        const index = recipes.findIndex(r => r.id === parseInt(id));
-        if (index !== -1) {
-            recipes[index] = { ...recipes[index], title, image, category, price, time, difficulty, description, ingredients, steps };
-            showToast("Receta actualizada exitosamente");
-        }
-    } else {
-        // Add new
-        const newId = recipes.length > 0 ? Math.max(...recipes.map(r => r.id)) + 1 : 1;
-        recipes.push({ id: newId, title, image, category, price, time, difficulty, description, ingredients, steps });
-        showToast("Receta agregada exitosamente");
+
+    console.log("ID:", id);
+    console.log("Nombre:", title);
+    console.log("Categoría:", category);
+    console.log("Precio:", price);
+    console.log("Descripción:", description);
+
+    // NUEVA RECETA
+    if (!id) {
+
+        console.log("Voy a guardar receta...");
+
+        const receta = {
+            nombre: title,
+            descripcion: description,
+            precioEstimado: price,
+            tipoComida: category.toLowerCase()
+        };
+
+        console.log("JSON enviado:", receta);
+
+        fetch("/api/recetas", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(receta)
+        })
+            .then(response => {
+
+                console.log("Status:", response.status);
+                console.log("OK:", response.ok);
+
+                if (!response.ok) {
+                    throw new Error("Error HTTP " + response.status);
+                }
+
+                return response.json();
+            })
+            .then(data => {
+
+                console.log("Guardado correctamente:", data);
+
+                showToast("Receta agregada exitosamente");
+
+                closeAdminModal();
+
+                cargarRecetas();
+            })
+            .catch(error => {
+
+                console.error("ERROR COMPLETO:", error);
+
+                alert("Error al guardar. Revisar consola F12");
+
+                showToast("Error al guardar");
+            });
+
+        return;
     }
-    
-    closeAdminModal();
-    renderAdminTable();
-    renderRecipes(); // Update home grid too
+
+    console.log("Modo edición");
 }
 
 function editRecipe(id) {
-    openAdminModal(id);
+
 }
 
 function deleteRecipe(id) {
-    if (confirm("¿Estás seguro de que deseas eliminar esta receta?")) {
-        recipes = recipes.filter(r => r.id !== id);
-        renderAdminTable();
-        renderRecipes();
-        showToast("Receta eliminada");
-    }
+
 }
 
-// =========================================
-// UTILS
-// =========================================
 function showToast(message) {
-    const toast = document.getElementById("toast");
-    toast.innerText = message;
-    toast.classList.add("show");
-    
-    setTimeout(() => {
-        toast.classList.remove("show");
-    }, 3000);
+
 }

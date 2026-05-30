@@ -1,51 +1,65 @@
 package com.example.HerramientaTrabajo.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "receta")
 public class Receta {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String nombre;
+
     private String descripcion;
-    private int precio;
-    private String momento;
+
+    @Column(name = "precio_estimado")
+    private Double precioEstimado;
+
+    @Column(name = "tipo_comida")
+    private String tipoComida;
 
     public Receta() {
     }
 
-    public Receta(String nombre, String descripcion, int precio, String momento) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.precio = precio;
-        this.momento = momento;
+    public Long getId() {
+        return id;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public String getDescripcion() {
         return descripcion;
+    }
+
+    public Double getPrecioEstimado() {
+        return precioEstimado;
+    }
+
+    public String getTipoComida() {
+        return tipoComida;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    public int getPrecio() {
-        return precio;
+    public void setPrecioEstimado(Double precioEstimado) {
+        this.precioEstimado = precioEstimado;
     }
 
-    public void setPrecio(int precio) {
-        this.precio = precio;
-    }
-
-    public String getMomento() {
-        return momento;
-    }
-
-    public void setMomento(String momento) {
-        this.momento = momento;
+    public void setTipoComida(String tipoComida) {
+        this.tipoComida = tipoComida;
     }
 }
