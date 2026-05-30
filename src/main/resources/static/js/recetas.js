@@ -395,15 +395,83 @@ function handleAdminSubmit(e) {
         return;
     }
 
+    fetch(`/api/recetas/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nombre: title,
+            descripcion: description,
+            precioEstimado: price,
+            tipoComida: category.toLowerCase()
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+
+            console.log("Actualizado:", data);
+
+            showToast("Receta actualizada");
+
+            closeAdminModal();
+
+            cargarRecetas();
+
+        })
+        .catch(error => {
+
+            console.error(error);
+
+            showToast("Error al actualizar");
+
+        });
+
     console.log("Modo edición");
 }
 
 function editRecipe(id) {
 
+    const recipe = recipes.find(r => r.id === id);
+
+    if (!recipe) return;
+
+    document.getElementById("form-id").value = recipe.id;
+    document.getElementById("form-name").value = recipe.title;
+    document.getElementById("form-category").value = recipe.category;
+    document.getElementById("form-price").value = recipe.price;
+    document.getElementById("form-description").value = recipe.description;
+
+    document.getElementById("admin-modal-title").innerText =
+        "Editar Receta";
+
+    document.getElementById("admin-modal")
+        .classList.add("active");
 }
 
 function deleteRecipe(id) {
 
+    if (!confirm("¿Estás seguro de eliminar esta receta?")) {
+        return;
+    }
+
+    fetch(`/api/recetas/${id}`, {
+        method: "DELETE"
+    })
+        .then(() => {
+
+            showToast("Receta eliminada");
+
+            cargarRecetas();
+
+        })
+        .catch(error => {
+
+            console.error(error);
+
+            showToast("Error al eliminar");
+
+        });
 }
 
 function showToast(message) {
