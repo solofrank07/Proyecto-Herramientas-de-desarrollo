@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sabor IA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="header">
+    <a href="Index.html" class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        Sabor IA
+    </a>
+
+    <nav class="nav">
+        <a href="Index.html">Inicio</a>
+        <a href="recetas.html">Explorar Recetas</a>
+        <a href="favoritos.html">Favoritos</a>
+        <a href="admin-recetas.html">Panel</a>
+
+        <div class="auth-buttons" id="authButtons">
+            <a href="login.html" class="btn btn-login">Ingresar</a>
+            <a href="register.html" class="btn btn-primary">Registrarse</a>
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="badge">✨ Inteligencia Artificial Culinaria</div>
+    <h1>¿Qué comeremos hoy?</h1>
+    <p>Encuentra comidas perfectas según tus ingredientes, antojos o presupuesto. La IA hace el trabajo duro por ti.</p>
+
+    <div class="search-box">
+        <input id="inputBusqueda" type="text" placeholder="Ej: Pollo, Arroz, Pasta...">
+        <input id="inputPresupuesto" type="number" placeholder="Presupuesto (S/)" min="0">
+
+        <select id="inputMomento">
+            <option value="">Cualquier momento</option>
+            <option value="desayuno">Desayuno</option>
+            <option value="almuerzo">Almuerzo</option>
+            <option value="cena">Cena</option>
+            <option value="snack">Snack</option>
+        </select>
+
+        <button onclick="buscar()" class="btn btn-primary">Buscar</button>
+        <button onclick="sorprendeme()" class="btn btn-secondary">Sorpréndeme 🎲</button>
+    </div>
+</section>
+
+<section class="result-section">
+    <div class="section-header">
+        <h2>Recomendaciones para ti</h2>
+    </div>
+    
+    <div id="loader" class="loader hidden"></div>
+    <div id="resultados" class="cards"></div>
+</section>
+
+<footer class="footer">
+    <p>© 2026 Sabor IA. Todos los derechos reservados.</p>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+// El script de verificarUsuario se mantiene intacto para no romper lógica
+function verificarUsuario() {
+    const usuario = localStorage.getItem("usuario");
+    const contenedor = document.getElementById("authButtons");
+
+    if (usuario && usuario !== "undefined" && usuario !== "null") {
+        contenedor.innerHTML = `
+            <span class="user-name">Hola, ${usuario}</span>
+            <button onclick="logout()" class="btn btn-logout">Cerrar sesión</button>
+        `;
+    }
+}
+
+function logout() {
+    localStorage.removeItem("usuario");
+    window.location.href = "login.html";
+}
+
+window.onload = function() {
+    verificarUsuario();
+    if (typeof mostrarAleatorios === "function") {
+        mostrarAleatorios();
+    }
+};
+</script>
+</body>
+</html>
