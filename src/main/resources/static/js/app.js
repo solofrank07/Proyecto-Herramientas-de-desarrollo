@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 // validación mejorada frontend
 
+=======
+>>>>>>> 15e787398112ef1d80e2d6b95517e71ad3ef23d2
 function mostrarLoader() {
     document.getElementById("loader").classList.remove("hidden");
 }
