@@ -1,30 +1,61 @@
 function register() {
+
     const nombre = document.getElementById("nombre").value;
     const correo = document.getElementById("correo").value;
     const pass = document.getElementById("pass").value;
 
+    const mensaje = document.getElementById("mensaje");
+
     if (!nombre || !correo || !pass) {
-        document.getElementById("mensaje").innerText = "Completa todos los campos";
+
+        mensaje.style.color = "red";
+        mensaje.innerText = "Completa todos los campos";
+
         return;
     }
 
-    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+    fetch("/api/auth/register", {
 
-    const existe = usuarios.find(u => u.correo === correo);
+        method: "POST",
 
-    if (existe) {
-        document.getElementById("mensaje").innerText = "El usuario ya existe";
-        return;
-    }
+        headers: {
+            "Content-Type": "application/json"
+        },
 
-    usuarios.push({ nombre, correo, pass });
+        body: JSON.stringify({
+            nombre: nombre,
+            correo: correo,
+            contrasena: pass
+        })
 
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    })
+        .then(response => response.json())
+        .then(data => {
 
-    document.getElementById("mensaje").style.color = "green";
-    document.getElementById("mensaje").innerText = "Registro exitoso";
+            if (!data || !data.id) {
 
-    setTimeout(() => {
-        window.location.href = "login.html";
-    }, 1000);
+                mensaje.style.color = "red";
+                mensaje.innerText = "El usuario ya existe";
+
+                return;
+            }
+
+            mensaje.style.color = "green";
+            mensaje.innerText = "Registro exitoso";
+
+            setTimeout(() => {
+
+                window.location.href = "login.html";
+
+            }, 1000);
+
+        })
+        .catch(error => {
+
+            console.error(error);
+
+            mensaje.style.color = "red";
+            mensaje.innerText = "Error al registrar usuario";
+
+        });
 }
