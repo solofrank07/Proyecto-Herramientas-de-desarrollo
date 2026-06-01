@@ -35,4 +35,17 @@ public class UsuarioService {
         return null;
     }
 }
+
+    public Usuario registrar(Usuario usuario) {
+
+        Usuario existe = repo.findByCorreo(usuario.getCorreo())
+                .orElse(null);
+
+        if (existe != null) {
+            return null;
+        }
+
+        return repo.save(usuario);
+    }
+
 }

@@ -24,4 +24,12 @@ public class AuthController {
 
         return service.login(correo, pass);
     }
+
+    @PostMapping("/register")
+    public Usuario register(@RequestBody Usuario usuario) {
+
+        return service.registrar(usuario);
+
+    }
+
 }
