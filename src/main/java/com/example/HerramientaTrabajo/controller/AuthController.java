@@ -3,6 +3,7 @@ package com.example.HerramientaTrabajo.controller;
 import com.example.HerramientaTrabajo.model.Usuario;
 import com.example.HerramientaTrabajo.service.UsuarioService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
@@ -26,10 +27,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public Usuario register(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> register(@RequestBody Usuario usuario) {
 
-        return service.registrar(usuario);
+        Usuario nuevoUsuario = service.registrar(usuario);
 
+        if (nuevoUsuario == null) {
+            return ResponseEntity.badRequest()
+                    .body("El correo ya está registrado");
+        }
+
+        return ResponseEntity.ok(nuevoUsuario);
     }
 
 }
