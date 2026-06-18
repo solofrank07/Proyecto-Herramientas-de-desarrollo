@@ -50,6 +50,13 @@ public class UsuarioService {
                 || usuario.getCorreo() == null || usuario.getCorreo().trim().isEmpty()
                 || usuario.getContrasena() == null || usuario.getContrasena().trim().isEmpty()) {
 
+            System.out.println("❌ Campos obligatorios vacíos");
+            return null;
+        }
+
+        if (!usuario.getCorreo().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+
+            System.out.println("❌ Formato de correo inválido");
             return null;
         }
 
@@ -57,8 +64,12 @@ public class UsuarioService {
                 .orElse(null);
 
         if (existe != null) {
+
+            System.out.println("❌ Correo ya registrado");
             return null;
         }
+
+        System.out.println("✔ Usuario registrado correctamente");
 
         return repo.save(usuario);
     }
