@@ -38,6 +38,13 @@ public class UsuarioService {
 
     public Usuario registrar(Usuario usuario) {
 
+        if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()
+                || usuario.getCorreo() == null || usuario.getCorreo().trim().isEmpty()
+                || usuario.getContrasena() == null || usuario.getContrasena().trim().isEmpty()) {
+
+            return null;
+        }
+
         Usuario existe = repo.findByCorreo(usuario.getCorreo())
                 .orElse(null);
 

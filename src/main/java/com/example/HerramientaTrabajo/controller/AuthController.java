@@ -4,6 +4,7 @@ import com.example.HerramientaTrabajo.model.Usuario;
 import com.example.HerramientaTrabajo.service.UsuarioService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
@@ -32,8 +33,9 @@ public class AuthController {
         Usuario nuevoUsuario = service.registrar(usuario);
 
         if (nuevoUsuario == null) {
-            return ResponseEntity.badRequest()
-                    .body("El correo ya está registrado");
+            return ResponseEntity
+                    .badRequest()
+                    .body("Todos los campos son obligatorios o el correo ya existe");
         }
 
         return ResponseEntity.ok(nuevoUsuario);
