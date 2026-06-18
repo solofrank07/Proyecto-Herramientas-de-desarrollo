@@ -54,6 +54,12 @@ public class UsuarioService {
             return null;
         }
 
+        if (usuario.getContrasena().length() < 5) {
+
+            System.out.println("❌ Contraseña demasiado corta");
+            return null;
+        }
+
         if (!usuario.getCorreo().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
 
             System.out.println("❌ Formato de correo inválido");
