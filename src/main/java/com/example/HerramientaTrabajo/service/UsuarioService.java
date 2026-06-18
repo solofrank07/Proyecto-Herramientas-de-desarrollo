@@ -14,27 +14,35 @@ public class UsuarioService {
     }
 
     public Usuario login(String correo, String contrasena) {
-    System.out.println("Correo recibido: [" + correo + "]");
-    System.out.println("Pass recibido: [" + contrasena + "]");
 
-    Usuario usuario = repo.findByCorreo(correo).orElse(null);
+        if (correo == null || correo.trim().isEmpty()
+                || contrasena == null || contrasena.trim().isEmpty()) {
 
-    if (usuario == null) {
-        System.out.println("❌ Usuario NO encontrado");
-        return null;
+            System.out.println("❌ Campos vacíos");
+            return null;
+        }
+
+        System.out.println("Correo recibido: [" + correo + "]");
+        System.out.println("Pass recibido: [" + contrasena + "]");
+
+        Usuario usuario = repo.findByCorreo(correo).orElse(null);
+
+        if (usuario == null) {
+            System.out.println("❌ Usuario NO encontrado");
+            return null;
+        }
+
+        System.out.println("✔ Usuario encontrado: " + usuario.getCorreo());
+        System.out.println("BD pass: [" + usuario.getContrasena() + "]");
+
+        if (usuario.getContrasena().equals(contrasena)) {
+            System.out.println("✔ LOGIN CORRECTO");
+            return usuario;
+        } else {
+            System.out.println("❌ PASSWORD INCORRECTO");
+            return null;
+        }
     }
-
-    System.out.println("✔ Usuario encontrado: " + usuario.getCorreo());
-    System.out.println("BD pass: [" + usuario.getContrasena() + "]");
-
-    if (usuario.getContrasena().equals(contrasena)) {
-        System.out.println("✔ LOGIN CORRECTO");
-        return usuario;
-    } else {
-        System.out.println("❌ PASSWORD INCORRECTO");
-        return null;
-    }
-}
 
     public Usuario registrar(Usuario usuario) {
 
@@ -54,5 +62,4 @@ public class UsuarioService {
 
         return repo.save(usuario);
     }
-
 }
