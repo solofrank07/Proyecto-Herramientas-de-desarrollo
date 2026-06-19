@@ -46,23 +46,24 @@ public class UsuarioService {
 
     public Usuario registrar(Usuario usuario) {
 
+        usuario.setCorreo(
+                usuario.getCorreo()
+                        .trim()
+                        .toLowerCase()
+        );
+
         if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()
                 || usuario.getCorreo() == null || usuario.getCorreo().trim().isEmpty()
                 || usuario.getContrasena() == null || usuario.getContrasena().trim().isEmpty()) {
 
-            System.out.println("❌ Campos obligatorios vacíos");
-            return null;
-        }
-
-        if (usuario.getContrasena().length() < 5) {
-
-            System.out.println("❌ Contraseña demasiado corta");
             return null;
         }
 
         if (!usuario.getCorreo().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            return null;
+        }
 
-            System.out.println("❌ Formato de correo inválido");
+        if (usuario.getContrasena().length() < 5) {
             return null;
         }
 
@@ -70,12 +71,8 @@ public class UsuarioService {
                 .orElse(null);
 
         if (existe != null) {
-
-            System.out.println("❌ Correo ya registrado");
             return null;
         }
-
-        System.out.println("✔ Usuario registrado correctamente");
 
         return repo.save(usuario);
     }
