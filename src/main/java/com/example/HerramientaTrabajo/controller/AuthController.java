@@ -38,13 +38,35 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Usuario usuario) {
 
-        Usuario nuevoUsuario = service.registrar(usuario);
+        String error = service.validarRegistro(usuario);
 
-        if (nuevoUsuario == null) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Todos los campos son obligatorios o el correo ya existe");
+        if (error != null) {
+
+            switch (error) {
+
+                case UsuarioService.CAMPOS_VACIOS:
+                    return ResponseEntity.badRequest()
+                            .body("Todos los campos son obligatorios");
+
+                case UsuarioService.NOMBRE_CORTO:
+                    return ResponseEntity.badRequest()
+                            .body("El nombre debe tener al menos 3 caracteres");
+
+                case UsuarioService.CORREO_INVALIDO:
+                    return ResponseEntity.badRequest()
+                            .body("Formato de correo inválido");
+
+                case UsuarioService.PASSWORD_CORTA:
+                    return ResponseEntity.badRequest()
+                            .body("La contraseña debe tener mínimo 5 caracteres");
+
+                case UsuarioService.CORREO_EXISTE:
+                    return ResponseEntity.badRequest()
+                            .body("El correo ya está registrado");
+            }
         }
+
+        Usuario nuevoUsuario = service.registrar(usuario);
 
         return ResponseEntity.ok(nuevoUsuario);
     }

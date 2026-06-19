@@ -7,6 +7,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsuarioService {
 
+    public static final String CAMPOS_VACIOS = "CAMPOS_VACIOS";
+    public static final String NOMBRE_CORTO = "NOMBRE_CORTO";
+    public static final String CORREO_INVALIDO = "CORREO_INVALIDO";
+    public static final String PASSWORD_CORTA = "PASSWORD_CORTA";
+    public static final String CORREO_EXISTE = "CORREO_EXISTE";
+
     private final UsuarioRepository repo;
 
     public UsuarioService(UsuarioRepository repo) {
@@ -44,6 +50,34 @@ public class UsuarioService {
         }
     }
 
+    public String validarRegistro(Usuario usuario) {
+
+        if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()
+                || usuario.getCorreo() == null || usuario.getCorreo().trim().isEmpty()
+                || usuario.getContrasena() == null || usuario.getContrasena().trim().isEmpty()) {
+
+            return CAMPOS_VACIOS;
+        }
+
+        if (usuario.getNombre().trim().length() < 3) {
+            return NOMBRE_CORTO;
+        }
+
+        if (!usuario.getCorreo().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            return CORREO_INVALIDO;
+        }
+
+        if (usuario.getContrasena().length() < 5) {
+            return PASSWORD_CORTA;
+        }
+
+        if (repo.findByCorreo(usuario.getCorreo().trim().toLowerCase()).isPresent()) {
+            return CORREO_EXISTE;
+        }
+
+        return null;
+    }
+
     public Usuario registrar(Usuario usuario) {
 
         usuario.setCorreo(
@@ -52,29 +86,9 @@ public class UsuarioService {
                         .toLowerCase()
         );
 
-        if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()
-                || usuario.getCorreo() == null || usuario.getCorreo().trim().isEmpty()
-                || usuario.getContrasena() == null || usuario.getContrasena().trim().isEmpty()) {
+        String error = validarRegistro(usuario);
 
-            return null;
-        }
-
-        if (usuario.getNombre().trim().length() < 3) {
-            return null;
-        }
-
-        if (!usuario.getCorreo().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            return null;
-        }
-
-        if (usuario.getContrasena().length() < 5) {
-            return null;
-        }
-
-        Usuario existe = repo.findByCorreo(usuario.getCorreo())
-                .orElse(null);
-
-        if (existe != null) {
+        if (error != null) {
             return null;
         }
 
