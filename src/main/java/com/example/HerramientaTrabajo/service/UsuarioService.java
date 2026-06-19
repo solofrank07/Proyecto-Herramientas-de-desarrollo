@@ -59,6 +59,10 @@ public class UsuarioService {
             return null;
         }
 
+        if (usuario.getNombre().trim().length() < 3) {
+            return null;
+        }
+
         if (!usuario.getCorreo().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             return null;
         }
