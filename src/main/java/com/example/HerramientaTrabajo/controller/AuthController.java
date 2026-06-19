@@ -48,6 +48,10 @@ public class AuthController {
                     return ResponseEntity.badRequest()
                             .body("Todos los campos son obligatorios");
 
+                case UsuarioService.NOMBRE_LARGO:
+                    return ResponseEntity.badRequest()
+                            .body("El nombre no puede superar los 50 caracteres");
+
                 case UsuarioService.NOMBRE_CORTO:
                     return ResponseEntity.badRequest()
                             .body("El nombre debe tener al menos 3 caracteres");

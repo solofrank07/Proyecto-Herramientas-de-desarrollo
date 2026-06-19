@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 public class UsuarioService {
 
     public static final String CAMPOS_VACIOS = "CAMPOS_VACIOS";
+    public static final String NOMBRE_LARGO = "NOMBRE_LARGO";
     public static final String NOMBRE_CORTO = "NOMBRE_CORTO";
     public static final String CORREO_INVALIDO = "CORREO_INVALIDO";
     public static final String PASSWORD_CORTA = "PASSWORD_CORTA";
@@ -61,6 +62,10 @@ public class UsuarioService {
 
         if (usuario.getNombre().trim().length() < 3) {
             return NOMBRE_CORTO;
+        }
+
+        if (usuario.getNombre().trim().length() > 50) {
+            return NOMBRE_LARGO;
         }
 
         if (!usuario.getCorreo().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
