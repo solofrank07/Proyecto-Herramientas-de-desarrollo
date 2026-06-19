@@ -13,6 +13,7 @@ public class UsuarioService {
     public static final String CORREO_INVALIDO = "CORREO_INVALIDO";
     public static final String PASSWORD_CORTA = "PASSWORD_CORTA";
     public static final String CORREO_EXISTE = "CORREO_EXISTE";
+    public static final String CORREO_LARGO = "CORREO_LARGO";
 
     private final UsuarioRepository repo;
 
@@ -28,6 +29,8 @@ public class UsuarioService {
             System.out.println("❌ Campos vacíos");
             return null;
         }
+
+        correo = correo.trim().toLowerCase();
 
         System.out.println("Correo recibido: [" + correo + "]");
         System.out.println("Pass recibido: [" + contrasena + "]");
@@ -68,6 +71,10 @@ public class UsuarioService {
             return NOMBRE_LARGO;
         }
 
+        if (usuario.getCorreo().trim().length() > 100) {
+            return CORREO_LARGO;
+        }
+
         if (!usuario.getCorreo().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             return CORREO_INVALIDO;
         }
@@ -84,6 +91,11 @@ public class UsuarioService {
     }
 
     public Usuario registrar(Usuario usuario) {
+
+        usuario.setNombre(
+                usuario.getNombre()
+                        .trim()
+        );
 
         usuario.setCorreo(
                 usuario.getCorreo()

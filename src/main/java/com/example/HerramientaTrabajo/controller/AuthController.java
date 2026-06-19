@@ -67,6 +67,12 @@ public class AuthController {
                 case UsuarioService.CORREO_EXISTE:
                     return ResponseEntity.badRequest()
                             .body("El correo ya está registrado");
+
+                case UsuarioService.CORREO_LARGO:
+                    return ResponseEntity
+                            .badRequest()
+                            .body("El correo no puede superar los 100 caracteres");
+
             }
         }
 
