@@ -34,6 +34,11 @@ public class UsuarioService {
 
         correo = correo.trim().toLowerCase();
 
+        if (correo.length() > 100) {
+            System.out.println("❌ Correo demasiado largo");
+            return null;
+        }
+
         System.out.println("Correo recibido: [" + correo + "]");
         System.out.println("Pass recibido: [" + contrasena + "]");
 
