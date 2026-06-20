@@ -14,6 +14,7 @@ public class UsuarioService {
     public static final String PASSWORD_CORTA = "PASSWORD_CORTA";
     public static final String CORREO_EXISTE = "CORREO_EXISTE";
     public static final String CORREO_LARGO = "CORREO_LARGO";
+    public static final String PASSWORD_LARGA = "PASSWORD_LARGA";
 
     private final UsuarioRepository repo;
 
@@ -85,6 +86,10 @@ public class UsuarioService {
 
         if (repo.findByCorreo(usuario.getCorreo().trim().toLowerCase()).isPresent()) {
             return CORREO_EXISTE;
+        }
+
+        if (usuario.getContrasena().length() > 50) {
+            return PASSWORD_LARGA;
         }
 
         return null;
