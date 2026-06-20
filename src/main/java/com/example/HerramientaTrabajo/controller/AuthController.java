@@ -77,6 +77,10 @@ public class AuthController {
                     return ResponseEntity.badRequest()
                             .body("La contraseña no puede superar los 50 caracteres");
 
+                case UsuarioService.CORREO_CORTO:
+                    return ResponseEntity.badRequest()
+                            .body("El correo debe tener al menos 8 caracteres");
+
             }
         }
 

@@ -15,6 +15,7 @@ public class UsuarioService {
     public static final String CORREO_EXISTE = "CORREO_EXISTE";
     public static final String CORREO_LARGO = "CORREO_LARGO";
     public static final String PASSWORD_LARGA = "PASSWORD_LARGA";
+    public static final String CORREO_CORTO = "CORREO_CORTO";
 
     private final UsuarioRepository repo;
 
@@ -56,6 +57,10 @@ public class UsuarioService {
     }
 
     public String validarRegistro(Usuario usuario) {
+
+        if (usuario.getCorreo().trim().length() < 8) {
+            return CORREO_CORTO;
+        }
 
         if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()
                 || usuario.getCorreo() == null || usuario.getCorreo().trim().isEmpty()
