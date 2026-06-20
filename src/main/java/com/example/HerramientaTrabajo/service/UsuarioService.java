@@ -48,10 +48,10 @@ public class UsuarioService {
         if (usuario.getContrasena().equals(contrasena)) {
             System.out.println("✔ LOGIN CORRECTO");
             return usuario;
-        } else {
-            System.out.println("❌ PASSWORD INCORRECTO");
-            return null;
         }
+
+        System.out.println("❌ PASSWORD INCORRECTO");
+        return null;
     }
 
     public String validarRegistro(Usuario usuario) {
