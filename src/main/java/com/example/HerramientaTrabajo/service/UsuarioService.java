@@ -105,6 +105,7 @@ public class UsuarioService {
         usuario.setNombre(
                 usuario.getNombre()
                         .trim()
+                        .replaceAll("\\s+", " ")
         );
 
         usuario.setCorreo(
