@@ -20,32 +20,24 @@ public class RecetaService {
         data.add(new Receta("Ceviche", "Fresco y delicioso", 25, "almuerzo"));
     }
 
-    public List<Receta> recomendar(String nombre, int presupuesto, String momento) {
+    public List<Receta> recomendar(String query, String difficulty, String category) {
+        return data.stream()
+                .filter(receta -> {
+                    // El backend debe ser robusto y manejar valores nulos o vacíos
+                    boolean matchCategory = category == null || category.isEmpty() || category.equalsIgnoreCase("Todas") ||
+                            (receta.getTipoComida() != null && receta.getTipoComida().equalsIgnoreCase(category));
 
-        List<Receta> resultado = new ArrayList<>();
+                    boolean matchDifficulty = difficulty == null || difficulty.isEmpty() || difficulty.equalsIgnoreCase("all") ||
+                            (receta.getDificultad() != null && receta.getDificultad().equalsIgnoreCase(difficulty));
 
-        for (Receta r : data) {
+                    boolean matchQuery = query == null || query.isEmpty() ||
+                            (receta.getNombre() != null && receta.getNombre().toLowerCase().contains(query.toLowerCase())) ||
+                            (receta.getIngredientes() != null && receta.getIngredientes().stream()
+                                    .anyMatch(ing -> ing.toLowerCase().contains(query.toLowerCase())));
 
-            int puntos = 0;
-
-            if (r.getNombre().toLowerCase().contains(nombre.toLowerCase())) {
-                puntos++;
-            }
-
-            if (presupuesto == 0 || r.getPrecio() <= presupuesto) {
-                puntos++;
-            }
-
-            if (momento.isEmpty() || r.getMomento().equalsIgnoreCase(momento)) {
-                puntos++;
-            }
-
-            if (puntos >= 2) {
-                resultado.add(r);
-            }
-        }
-
-        return resultado;
+                    return matchCategory && matchDifficulty && matchQuery;
+                })
+                .collect(Collectors.toList());
     }
 
     public List<Receta> getAllRecetas() {

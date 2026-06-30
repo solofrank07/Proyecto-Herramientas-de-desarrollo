@@ -8,11 +8,11 @@ let currentCategory = "Todas";
 let currentSearch = "";
 let currentDifficulty = "all";
 
-async function cargarRecetas() {
+async function cargarRecetas() { // Renombrado a cargarDatosIniciales o similar podría ser más claro
 
     try {
 
-        const response = await fetch("/api/recetas");
+        const response = await fetch("/api/recetas"); // Esto trae la lista completa para el panel de admin
 
         const data = await response.json();
 
@@ -22,7 +22,7 @@ async function cargarRecetas() {
             description: r.descripcion,
             category: capitalizar(r.tipoComida),
             price: r.precioEstimado,
-
+            // Los datos mock se completarán con datos reales del backend
             image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
             time: "30 min",
             difficulty: "Media",
@@ -30,7 +30,8 @@ async function cargarRecetas() {
             steps: ["Información no disponible"]
         }));
 
-        renderRecipes();
+        // Renderiza la vista principal y la tabla de admin con los datos iniciales
+        await renderRecipes();
         renderAdminTable();
 
         console.log("Recetas cargadas:", recipes);
@@ -48,13 +49,9 @@ function capitalizar(texto) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
     renderCategories();
-
     setupEventListeners();
-
     cargarRecetas();
-
 });
 
 function setupEventListeners() {
@@ -128,21 +125,36 @@ function renderCategories() {
     });
 }
 
-function renderRecipes() {
+async function renderRecipes() {
     const container = document.getElementById("recipes-grid");
     container.innerHTML = "";
     
-    const filteredRecipes = recipes.filter(r => {
-        const matchCategory = currentCategory === "Todas" || r.category === currentCategory;
-        const matchSearch =
-            r.title.toLowerCase().includes(currentSearch) ||
-            (r.ingredients || []).some(i =>
-                i.toLowerCase().includes(currentSearch)
-            );
-        const matchDifficulty = currentDifficulty === "all" || r.difficulty === currentDifficulty;
-        
-        return matchCategory && matchSearch && matchDifficulty;
+    // Construir la URL con los parámetros de búsqueda del estado actual
+    const params = new URLSearchParams({
+        query: currentSearch,
+        category: currentCategory,
+        difficulty: currentDifficulty
     });
+    
+    // Usaremos un endpoint dedicado a la búsqueda. Asumimos que mapea al método `recomendar`.
+    const url = `/api/recomendar?${params.toString()}`;
+
+    let filteredRecipes = [];
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Error al buscar recetas');
+        
+        // Usamos los datos de la API directamente, no el array `recipes` global
+        const dataFromApi = await response.json();
+        // Mapeamos al formato que el frontend espera (si es necesario)
+        filteredRecipes = dataFromApi.map(r => ({
+            id: r.id, title: r.nombre, description: r.descripcion, category: capitalizar(r.tipoComida), price: r.precioEstimado, image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", time: "30 min", difficulty: "Media"
+        }));
+    } catch (error) {
+        console.error("Error renderizando recetas:", error);
+        container.innerHTML = `<p style="grid-column: 1 / -1; text-align: center;">Error al cargar las recetas.</p>`;
+        return;
+    }
 
     if (filteredRecipes.length === 0) {
         container.innerHTML = `
