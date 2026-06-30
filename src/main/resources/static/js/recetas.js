@@ -322,158 +322,89 @@ function closeAdminModal() {
     document.body.style.overflow = "";
 }
 
-function handleAdminSubmit(e) {
-
-    alert("Entró al submit");
-
+async function handleAdminSubmit(e) {
     e.preventDefault();
 
-    const id = document.getElementById("form-id").value;
+    const id = document.getElementById("form-id").value || null;
+    const esNuevo = !id;
 
-    const title = document.getElementById("form-name").value;
-    const category = document.getElementById("form-category").value;
-    const price = parseFloat(document.getElementById("form-price").value);
-    const description = document.getElementById("form-description").value;
+    const recipeData = {
+        id: id ? parseInt(id) : null,
+        nombre: document.getElementById("form-name").value,
+        descripcion: document.getElementById("form-description").value,
+        precioEstimado: parseFloat(document.getElementById("form-price").value),
+        tipoComida: document.getElementById("form-category").value.toLowerCase(),
+        // Campos adicionales que tu modal podría tener
+        imagenUrl: document.getElementById("form-image").value,
+        tiempoPreparacion: document.getElementById("form-time").value,
+        dificultad: document.getElementById("form-difficulty").value,
+        ingredientes: document.getElementById("form-ingredients").value.split(",").map(i => i.trim()).filter(i => i),
+        pasos: document.getElementById("form-steps").value.split("\n").map(s => s.trim()).filter(s => s)
+    };
 
-    console.log("ID:", id);
-    console.log("Nombre:", title);
-    console.log("Categoría:", category);
-    console.log("Precio:", price);
-    console.log("Descripción:", description);
+    const method = esNuevo ? 'POST' : 'PUT';
+    const url = esNuevo ? '/api/recetas' : `/api/recetas/${id}`;
 
-    // NUEVA RECETA
-    if (!id) {
-
-        console.log("Voy a guardar receta...");
-
-        const receta = {
-            nombre: title,
-            descripcion: description,
-            precioEstimado: price,
-            tipoComida: category.toLowerCase()
-        };
-
-        console.log("JSON enviado:", receta);
-
-        fetch("/api/recetas", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(receta)
-        })
-            .then(response => {
-
-                console.log("Status:", response.status);
-                console.log("OK:", response.ok);
-
-                if (!response.ok) {
-                    throw new Error("Error HTTP " + response.status);
-                }
-
-                return response.json();
-            })
-            .then(data => {
-
-                console.log("Guardado correctamente:", data);
-
-                showToast("Receta agregada exitosamente");
-
-                closeAdminModal();
-
-                cargarRecetas();
-            })
-            .catch(error => {
-
-                console.error("ERROR COMPLETO:", error);
-
-                alert("Error al guardar. Revisar consola F12");
-
-                showToast("Error al guardar");
-            });
-
-        return;
-    }
-
-    fetch(`/api/recetas/${id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            nombre: title,
-            descripcion: description,
-            precioEstimado: price,
-            tipoComida: category.toLowerCase()
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-
-            console.log("Actualizado:", data);
-
-            showToast("Receta actualizada");
-
-            closeAdminModal();
-
-            cargarRecetas();
-
-        })
-        .catch(error => {
-
-            console.error(error);
-
-            showToast("Error al actualizar");
-
+    try {
+        const response = await fetch(url, {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(recipeData)
         });
 
-    console.log("Modo edición");
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.message || `Error HTTP ${response.status}`);
+        }
+
+        await response.json();
+        showToast(`Receta ${esNuevo ? 'agregada' : 'actualizada'} exitosamente`);
+        closeAdminModal();
+        cargarRecetas(); // Recargar todos los datos desde el backend
+
+    } catch (error) {
+        console.error(`Error al ${esNuevo ? 'guardar' : 'actualizar'}:`, error);
+        showToast(error.message, 'error');
+    }
 }
 
 function editRecipe(id) {
-
-    const recipe = recipes.find(r => r.id === id);
-
-    if (!recipe) return;
-
-    document.getElementById("form-id").value = recipe.id;
-    document.getElementById("form-name").value = recipe.title;
-    document.getElementById("form-category").value = recipe.category;
-    document.getElementById("form-price").value = recipe.price;
-    document.getElementById("form-description").value = recipe.description;
-
-    document.getElementById("admin-modal-title").innerText =
-        "Editar Receta";
-
-    document.getElementById("admin-modal")
-        .classList.add("active");
+    openAdminModal(id);
 }
 
-function deleteRecipe(id) {
-
+async function deleteRecipe(id) {
     if (!confirm("¿Estás seguro de eliminar esta receta?")) {
         return;
     }
 
-    fetch(`/api/recetas/${id}`, {
-        method: "DELETE"
-    })
-        .then(() => {
-
-            showToast("Receta eliminada");
-
-            cargarRecetas();
-
-        })
-        .catch(error => {
-
-            console.error(error);
-
-            showToast("Error al eliminar");
-
-        });
+    try {
+        const response = await fetch(`/api/recetas/${id}`, { method: "DELETE" });
+        if (!response.ok) throw new Error('No se pudo eliminar la receta');
+        showToast("Receta eliminada");
+        cargarRecetas();
+    } catch (error) {
+        console.error("Error al eliminar:", error);
+        showToast(error.message, 'error');
+    }
 }
 
-function showToast(message) {
+function showToast(message, type = 'success') {
+    const toastContainer = document.getElementById("toast-container") || createToastContainer();
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.innerText = message;
+    if (type === 'error') toast.style.backgroundColor = '#EF4444';
+    toastContainer.appendChild(toast);
+    setTimeout(() => toast.classList.add("show"), 10);
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 500);
+    }, 3000);
+}
 
+function createToastContainer() {
+    const container = document.createElement("div");
+    container.id = "toast-container";
+    document.body.appendChild(container);
+    return container;
 }

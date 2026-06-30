@@ -1,68 +1,69 @@
 package com.example.HerramientaTrabajo.service;
 
 import com.example.HerramientaTrabajo.model.Receta;
-import com.example.HerramientaTrabajo.repository.RecetaRepository;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class RecetaService {
 
-    private final RecetaRepository repo;
+    private List<Receta> data = new ArrayList<>();
 
-    public RecetaService(RecetaRepository repo) {
-        this.repo = repo;
+    @PostConstruct
+    public void init() {
+        data.add(new Receta("Arroz con Pollo", "Económico y fácil", 12, "almuerzo"));
+        data.add(new Receta("Lomo Saltado", "Clásico peruano", 20, "almuerzo"));
+        data.add(new Receta("Ceviche", "Fresco y delicioso", 25, "almuerzo"));
     }
 
     public List<Receta> recomendar(String nombre, int presupuesto, String momento) {
 
-        List<Receta> recetas = repo.findAll();
+        List<Receta> resultado = new ArrayList<>();
 
-        return recetas.stream()
-                .filter(r ->
-                        (nombre.isEmpty() ||
-                                r.getNombre().toLowerCase().contains(nombre.toLowerCase()))
-                                &&
-                                (presupuesto == 0 ||
-                                        r.getPrecioEstimado() <= presupuesto)
-                                &&
-                                (momento.isEmpty() ||
-                                        r.getTipoComida().equalsIgnoreCase(momento))
-                )
-                .collect(Collectors.toList());
-    }
+        for (Receta r : data) {
 
-    public List<Receta> listarTodas() {
-        return repo.findAll();
-    }
+            int puntos = 0;
 
-    public Receta guardar(Receta receta) {
-        return repo.save(receta);
-    }
+            if (r.getNombre().toLowerCase().contains(nombre.toLowerCase())) {
+                puntos++;
+            }
 
-    public Receta buscarPorId(Long id) {
-        return repo.findById(id).orElse(null);
-    }
+            if (presupuesto == 0 || r.getPrecio() <= presupuesto) {
+                puntos++;
+            }
 
-    public Receta actualizar(Long id, Receta nuevaReceta) {
+            if (momento.isEmpty() || r.getMomento().equalsIgnoreCase(momento)) {
+                puntos++;
+            }
 
-        Receta receta = repo.findById(id).orElse(null);
-
-        if (receta == null) {
-            return null;
+            if (puntos >= 2) {
+                resultado.add(r);
+            }
         }
 
-        receta.setNombre(nuevaReceta.getNombre());
-        receta.setDescripcion(nuevaReceta.getDescripcion());
-        receta.setPrecioEstimado(nuevaReceta.getPrecioEstimado());
-        receta.setTipoComida(nuevaReceta.getTipoComida());
-
-        return repo.save(receta);
+        return resultado;
     }
 
-    public void eliminar(Long id) {
-        repo.deleteById(id);
+    public List<Receta> getAllRecetas() {
+        return data;
+    }
+
+    public Receta saveReceta(Receta receta) {
+        // Lógica para nuevo o edición
+        if (receta.getId() == null || receta.getId() == 0) {
+            receta.setId(System.currentTimeMillis()); // ID simple para el ejemplo
+            data.add(receta);
+        } else {
+            data = data.stream().map(r -> r.getId().equals(receta.getId()) ? receta : r).collect(Collectors.toList());
+        }
+        return receta;
+    }
+
+    public void deleteReceta(Long id) {
+        data.removeIf(r -> r.getId().equals(id));
     }
 }
