@@ -5,7 +5,10 @@ import com.example.HerramientaTrabajo.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import com.example.HerramientaTrabajo.dto.LoginRequest;
+import com.example.HerramientaTrabajo.dto.LoginResponse;
+import com.example.HerramientaTrabajo.dto.RegisterRequest;
+import com.example.HerramientaTrabajo.dto.RegisterResponse;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -19,12 +22,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> datos) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
 
-        String correo = datos.get("correo");
-        String pass = datos.get("password");
-
-        Usuario usuario = service.login(correo, pass);
+        Usuario usuario = service.login(
+                request.getCorreo(),
+                request.getPassword()
+        );
 
         if (usuario == null) {
             return ResponseEntity
@@ -32,11 +35,23 @@ public class AuthController {
                     .body("Correo o contraseña incorrectos");
         }
 
-        return ResponseEntity.ok(usuario);
+        LoginResponse response = new LoginResponse(
+                usuario.getId(),
+                usuario.getNombre(),
+                usuario.getCorreo()
+        );
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+
+        Usuario usuario = new Usuario();
+
+        usuario.setNombre(request.getNombre());
+        usuario.setCorreo(request.getCorreo());
+        usuario.setContrasena(request.getContrasena());
 
         String error = service.validarRegistro(usuario);
 
@@ -69,8 +84,7 @@ public class AuthController {
                             .body("El correo ya está registrado");
 
                 case UsuarioService.CORREO_LARGO:
-                    return ResponseEntity
-                            .badRequest()
+                    return ResponseEntity.badRequest()
                             .body("El correo no puede superar los 100 caracteres");
 
                 case UsuarioService.PASSWORD_LARGA:
@@ -80,12 +94,17 @@ public class AuthController {
                 case UsuarioService.CORREO_CORTO:
                     return ResponseEntity.badRequest()
                             .body("El correo debe tener al menos 8 caracteres");
-
             }
         }
 
         Usuario nuevoUsuario = service.registrar(usuario);
 
-        return ResponseEntity.ok(nuevoUsuario);
+        RegisterResponse response = new RegisterResponse(
+                nuevoUsuario.getId(),
+                nuevoUsuario.getNombre(),
+                nuevoUsuario.getCorreo()
+        );
+
+        return ResponseEntity.ok(response);
     }
 }
