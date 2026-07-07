@@ -107,17 +107,7 @@ public class UsuarioService {
 
     public Usuario registrar(Usuario usuario) {
 
-        usuario.setNombre(
-                usuario.getNombre()
-                        .trim()
-                        .replaceAll("\\s+", " ")
-        );
-
-        usuario.setCorreo(
-                usuario.getCorreo()
-                        .trim()
-                        .toLowerCase()
-        );
+        normalizarUsuario(usuario);
 
         String error = validarRegistro(usuario);
 
@@ -132,6 +122,80 @@ public class UsuarioService {
 
         return repo.findById(id).orElse(null);
 
+    }
+
+    public Usuario actualizarPerfil(Long id, String nombre, String correo) {
+
+        Usuario usuario = repo.findById(id).orElse(null);
+
+        if (usuario == null) {
+            System.out.println("ERROR: Usuario no encontrado");
+            return null;
+        }
+
+        usuario.setNombre(nombre);
+        usuario.setCorreo(correo);
+
+        normalizarUsuario(usuario);
+
+        System.out.println("Nombre normalizado: " + usuario.getNombre());
+        System.out.println("Correo normalizado: " + usuario.getCorreo());
+
+        if (usuario.getNombre().length() < 3
+                || usuario.getNombre().length() > 50) {
+
+            System.out.println("ERROR: Nombre inválido");
+            return null;
+        }
+
+        if (usuario.getCorreo().length() < 8
+                || usuario.getCorreo().length() > 100) {
+
+            System.out.println("ERROR: Longitud de correo inválida");
+            return null;
+        }
+
+        if (!usuario.getCorreo().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+
+            System.out.println("ERROR: Formato de correo inválido");
+            return null;
+        }
+
+        if (correoPerteneceAOtroUsuario(usuario)) {
+
+            System.out.println("ERROR: Correo pertenece a otro usuario");
+            return null;
+        }
+
+        System.out.println("Guardando usuario...");
+        return repo.save(usuario);
+    }
+
+    private void normalizarUsuario(Usuario usuario) {
+
+        usuario.setNombre(
+                usuario.getNombre()
+                        .trim()
+                        .replaceAll("\\s+", " ")
+        );
+
+        usuario.setCorreo(
+                usuario.getCorreo()
+                        .trim()
+                        .toLowerCase()
+        );
+    }
+
+    private boolean correoPerteneceAOtroUsuario(Usuario usuario) {
+
+        Usuario existente = repo.findByCorreo(usuario.getCorreo())
+                .orElse(null);
+
+        if (existente == null) {
+            return false;
+        }
+
+        return !existente.getId().equals(usuario.getId());
     }
 
 }
