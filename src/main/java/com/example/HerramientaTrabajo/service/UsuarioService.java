@@ -127,4 +127,11 @@ public class UsuarioService {
 
         return repo.save(usuario);
     }
+
+    public Usuario obtenerPerfil(Long id) {
+
+        return repo.findById(id).orElse(null);
+
+    }
+
 }
