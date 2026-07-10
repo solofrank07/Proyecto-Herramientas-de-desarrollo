@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - Sabor IA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <a href="Index.html" class="brand">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            Sabor IA
+        </a>
+
+        <div class="login-box">
+            <h2>Crear Cuenta</h2>
+            <p class="subtitle">Únete a Sabor IA y guarda tus recetas</p>
+
+            <div class="form-group">
+                <label for="nombre">Nombre completo</label>
+                <input id="nombre" type="text" placeholder="Ej: Juan Pérez">
+            </div>
+
+            <div class="form-group">
+                <label for="correo">Correo electrónico</label>
+                <input id="correo" type="email" placeholder="tu@correo.com">
+            </div>
+
+            <div class="form-group">
+                <label for="pass">Contraseña</label>
+                <input id="pass" type="password" placeholder="Crea una contraseña segura">
+            </div>
+
+            <button type="button" onclick="register()">Registrarse</button>
+
+            <p id="mensaje" class="error"></p>
+
+            <p class="footer-text">
+                ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/register.js"></script>
+
+</body>
+</html>

@@ -1,17 +1,30 @@
 package com.example.HerramientaTrabajo.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "receta")
 public class Receta {
 
-    private String nombre;
-    private String descripcion;
-    private int precio;
-    private String momento;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Receta(String nombre, String descripcion, int precio, String momento) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.precio = precio;
-        this.momento = momento;
+    private String nombre;
+
+    private String descripcion;
+
+    @Column(name = "precio_estimado")
+    private Double precioEstimado;
+
+    @Column(name = "tipo_comida")
+    private String tipoComida;
+
+    public Receta() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getNombre() {
@@ -22,11 +35,31 @@ public class Receta {
         return descripcion;
     }
 
-    public int getPrecio() {
-        return precio;
+    public Double getPrecioEstimado() {
+        return precioEstimado;
     }
 
-    public String getMomento() {
-        return momento;
+    public String getTipoComida() {
+        return tipoComida;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setPrecioEstimado(Double precioEstimado) {
+        this.precioEstimado = precioEstimado;
+    }
+
+    public void setTipoComida(String tipoComida) {
+        this.tipoComida = tipoComida;
     }
 }
