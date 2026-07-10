@@ -7,6 +7,7 @@ import com.example.HerramientaTrabajo.model.Usuario;
 import com.example.HerramientaTrabajo.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.HerramientaTrabajo.dto.UpdatePasswordRequest;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -94,4 +95,38 @@ public class UsuarioController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/password/{id}")
+    public ResponseEntity<ApiResponse<?>> actualizarPassword(
+            @PathVariable Long id,
+            @RequestBody UpdatePasswordRequest request) {
+
+        Usuario usuario = service.actualizarPassword(
+                id,
+                request.getPasswordActual(),
+                request.getPasswordNueva()
+        );
+
+        if (usuario == null) {
+
+            ApiResponse<Object> response =
+                    new ApiResponse<>(
+                            false,
+                            "No fue posible actualizar la contraseña",
+                            null
+                    );
+
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        ApiResponse<Object> response =
+                new ApiResponse<>(
+                        true,
+                        "Contraseña actualizada correctamente",
+                        null
+                );
+
+        return ResponseEntity.ok(response);
+    }
+
 }

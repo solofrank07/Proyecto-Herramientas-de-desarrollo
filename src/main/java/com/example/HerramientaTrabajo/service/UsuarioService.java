@@ -171,6 +171,36 @@ public class UsuarioService {
         return repo.save(usuario);
     }
 
+    public Usuario actualizarPassword(
+            Long id,
+            String passwordActual,
+            String passwordNueva) {
+
+        Usuario usuario = repo.findById(id).orElse(null);
+
+        if (usuario == null) {
+            return null;
+        }
+
+        if (!usuario.getContrasena().equals(passwordActual)) {
+            return null;
+        }
+
+        if (passwordNueva == null
+                || passwordNueva.trim().isEmpty()) {
+            return null;
+        }
+
+        if (passwordNueva.length() < 5
+                || passwordNueva.length() > 50) {
+            return null;
+        }
+
+        usuario.setContrasena(passwordNueva);
+
+        return repo.save(usuario);
+    }
+
     private void normalizarUsuario(Usuario usuario) {
 
         usuario.setNombre(
