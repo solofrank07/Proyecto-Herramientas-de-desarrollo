@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recetas — Sabor IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body data-page="recetas">
+
+<header class="header">
+  <div class="header-inner">
+    <a href="Index.html" class="logo">
+      <svg class="logo-svg" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 10h1.5a3.5 3.5 0 0 1 0 7H21"/>
+        <path d="M3 10h18v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V10z"/>
+        <line x1="8" y1="2" x2="8" y2="5"/>
+        <line x1="13" y1="2" x2="13" y2="5"/>
+        <line x1="18" y1="2" x2="18" y2="5"/>
+      </svg>
+      Sabor IA
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="Index.html">Inicio</a>
+      <a href="recetas.html" class="active">Recetas</a>
+      <a href="favoritos.html">Favoritos</a>
+    </nav>
+    <div class="header-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Cambiar modo" onclick="toggleTheme()">🌙</button>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="auth-section" id="authSection"></div>
+    </div>
+  </div>
+</header>
+
+<div class="tabs" style="max-width:1200px;margin:24px auto 0;padding:0 24px;">
+  <button class="tab active" onclick="showTab('explorar')" id="tabExplorar">🌮 Explorar</button>
+  <button class="tab" onclick="showTab('admin')" id="tabAdmin">⚙️ Admin</button>
+</div>
+
+<main id="viewExplorar">
+  <section class="admin-page" style="padding-top:24px">
+    <div class="filters-bar">
+      <div class="pills" id="categPills"></div>
+      <input class="input" id="recetasSearch" type="text" placeholder="Buscar recetas..." style="max-width:280px">
+    </div>
+    <div class="cards-grid" id="recipesGrid">
+      <div class="card-skeleton">
+        <div class="card-skeleton-img"></div>
+        <div class="card-skeleton-body">
+          <div class="card-skeleton-title skeleton"></div>
+          <div class="card-skeleton-text skeleton"></div>
+          <div class="card-skeleton-text skeleton"></div>
+        </div>
+      </div>
+      <div class="card-skeleton">
+        <div class="card-skeleton-img"></div>
+        <div class="card-skeleton-body">
+          <div class="card-skeleton-title skeleton"></div>
+          <div class="card-skeleton-text skeleton"></div>
+          <div class="card-skeleton-text skeleton"></div>
+        </div>
+      </div>
+      <div class="card-skeleton">
+        <div class="card-skeleton-img"></div>
+        <div class="card-skeleton-body">
+          <div class="card-skeleton-title skeleton"></div>
+          <div class="card-skeleton-text skeleton"></div>
+          <div class="card-skeleton-text skeleton"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main id="viewAdmin" style="display:none">
+  <section class="admin-page">
+    <div class="admin-header">
+      <div>
+        <h2 class="section-title">Gestión de Recetas</h2>
+        <p class="section-subtitle">Administra el catálogo de recetas</p>
+      </div>
+      <button class="btn btn-primary" onclick="openAdminModal()">+ Nueva Receta</button>
+    </div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Receta</th>
+            <th>Tipo</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="adminBody">
+          <tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-muted)">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<div class="modal-overlay" id="adminModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAdminModal()">✕</button>
+    <div class="modal-body">
+      <h3 class="modal-title" id="modalTitle">Nueva Receta</h3>
+      <form id="adminForm">
+        <input type="hidden" id="formId">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="formName">Nombre</label>
+            <input class="input" id="formName" required>
+          </div>
+          <div class="form-group">
+            <label for="formPrice">Precio estimado (S/)</label>
+            <input class="input" id="formPrice" type="number" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label for="formType">Tipo de comida</label>
+            <select class="input select" id="formType" required>
+              <option value="">Seleccionar...</option>
+              <option value="desayuno">Desayuno</option>
+              <option value="almuerzo">Almuerzo</option>
+              <option value="cena">Cena</option>
+              <option value="snack">Snack</option>
+              <option value="postre">Postre</option>
+              <option value="bebida">Bebida</option>
+            </select>
+          </div>
+          <div class="form-group form-full">
+            <label for="formDesc">Descripción</label>
+            <textarea class="input" id="formDesc" rows="3" style="resize:vertical"></textarea>
+          </div>
+          <div class="form-submit-row">
+            <button type="button" class="btn btn-secondary" onclick="closeAdminModal()">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>© 2026 Sabor IA. Todos los derechos reservados.</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function showTab(tab) {
+  const explorar = document.getElementById("viewExplorar");
+  const admin = document.getElementById("viewAdmin");
+  const tabExp = document.getElementById("tabExplorar");
+  const tabAdm = document.getElementById("tabAdmin");
+  if (tab === "explorar") {
+    explorar.style.display = "block";
+    admin.style.display = "none";
+    tabExp.classList.add("active");
+    tabAdm.classList.remove("active");
+  } else {
+    explorar.style.display = "none";
+    admin.style.display = "block";
+    tabExp.classList.remove("active");
+    tabAdm.classList.add("active");
+  }
+}
+</script>
+</body>
+</html>

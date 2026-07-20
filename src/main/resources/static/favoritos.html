@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favoritos — Sabor IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body data-page="favoritos">
+
+<header class="header">
+  <div class="header-inner">
+    <a href="Index.html" class="logo">
+      <svg class="logo-svg" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 10h1.5a3.5 3.5 0 0 1 0 7H21"/>
+        <path d="M3 10h18v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V10z"/>
+        <line x1="8" y1="2" x2="8" y2="5"/>
+        <line x1="13" y1="2" x2="13" y2="5"/>
+        <line x1="18" y1="2" x2="18" y2="5"/>
+      </svg>
+      Sabor IA
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="Index.html">Inicio</a>
+      <a href="recetas.html">Recetas</a>
+      <a href="favoritos.html" class="active">Favoritos</a>
+    </nav>
+    <div class="header-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Cambiar modo" onclick="toggleTheme()">🌙</button>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="auth-section" id="authSection"></div>
+    </div>
+  </div>
+</header>
+
+<section class="favoritos-page">
+  <div class="favoritos-empty">
+    <div class="favoritos-empty-icon">❤️</div>
+    <h1 class="favoritos-empty-title">Tus recetas favoritas</h1>
+    <p class="favoritos-empty-text">Aquí aparecerán las recetas que guardes. Esta función estará disponible próximamente.</p>
+    <a href="recetas.html" class="btn btn-primary">Explorar recetas</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>© 2026 Sabor IA. Todos los derechos reservados.</p>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sabor IA — Recetas inteligentes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body data-page="index">
+
+<header class="header">
+  <div class="header-inner">
+    <a href="Index.html" class="logo">
+      <svg class="logo-svg" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 10h1.5a3.5 3.5 0 0 1 0 7H21"/>
+        <path d="M3 10h18v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V10z"/>
+        <line x1="8" y1="2" x2="8" y2="5"/>
+        <line x1="13" y1="2" x2="13" y2="5"/>
+        <line x1="18" y1="2" x2="18" y2="5"/>
+      </svg>
+      Sabor IA
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="Index.html" class="active">Inicio</a>
+      <a href="recetas.html">Recetas</a>
+      <a href="favoritos.html">Favoritos</a>
+    </nav>
+    <div class="header-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Cambiar modo" onclick="toggleTheme()">🌙</button>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="auth-section" id="authSection"></div>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="hero-badge">✨ Inteligencia Artificial Culinaria</div>
+  <h1 class="hero-title">¿Qué se te antoja hoy?</h1>
+  <p class="hero-subtitle">Busca recetas por ingredientes, presupuesto o momento del día. La IA encuentra lo perfecto para ti.</p>
+
+  <div class="search-card">
+    <div class="search-grid">
+      <input class="input" id="inputBusqueda" type="text" placeholder="Ej: Pollo, arroz, pasta...">
+      <input class="input" id="inputPresupuesto" type="number" placeholder="Presupuesto S/" min="0">
+      <select class="input select" id="inputMomento">
+        <option value="">Cualquier momento</option>
+        <option value="desayuno">Desayuno</option>
+        <option value="almuerzo">Almuerzo</option>
+        <option value="cena">Cena</option>
+        <option value="snack">Snack</option>
+      </select>
+    </div>
+    <div class="search-actions">
+      <button class="btn btn-primary" id="btnBuscar">🔍 Buscar</button>
+      <button class="btn btn-secondary" id="btnSorprendeme">🎲 Sorpréndeme</button>
+    </div>
+  </div>
+</section>
+
+<section class="result-section">
+  <div class="result-header">
+    <h2 class="section-title">Recomendaciones para ti</h2>
+  </div>
+  <div class="cards-grid" id="resultados">
+    <div class="card-skeleton">
+      <div class="card-skeleton-img"></div>
+      <div class="card-skeleton-body">
+        <div class="card-skeleton-title skeleton"></div>
+        <div class="card-skeleton-text skeleton"></div>
+        <div class="card-skeleton-text skeleton"></div>
+      </div>
+    </div>
+    <div class="card-skeleton">
+      <div class="card-skeleton-img"></div>
+      <div class="card-skeleton-body">
+        <div class="card-skeleton-title skeleton"></div>
+        <div class="card-skeleton-text skeleton"></div>
+        <div class="card-skeleton-text skeleton"></div>
+      </div>
+    </div>
+    <div class="card-skeleton">
+      <div class="card-skeleton-img"></div>
+      <div class="card-skeleton-body">
+        <div class="card-skeleton-title skeleton"></div>
+        <div class="card-skeleton-text skeleton"></div>
+        <div class="card-skeleton-text skeleton"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>© 2026 Sabor IA. Todos los derechos reservados.</p>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
